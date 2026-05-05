@@ -1,0 +1,110 @@
+:root {
+    --fondo: #e0f7fa;        /* Celeste agua claro */
+    --tarjeta: #ffffff;      /* Blanco puro */
+    --texto: #006064;        /* Verde azulado oscuro */
+    --acento: #ff5252;       /* Rojo vibrante para faltas */
+    --borde: #b2ebf2;        /* Celeste suave */
+    --oro: #00acc1;          /* Cian para encabezados */
+}
+
+body {
+    background-color: var(--fondo);
+    background-image: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
+    color: var(--texto);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.instrucciones {
+    color: #00838f;
+    font-size: 0.85rem;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.table-container {
+    width: 100%;
+    max-width: 1450px;
+    overflow-x: auto;
+    background: var(--tarjeta);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 96, 100, 0.15);
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1250px;
+}
+
+th, td {
+    border: 1px solid var(--borde);
+    padding: 12px 8px;
+    text-align: center;
+}
+
+.header-nombres {
+    background: #0097a7;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header-dias {
+    background: #f0fdfd;
+    font-size: 0.7rem;
+    color: #006064;
+}
+
+.regla-nombre {
+    text-align: left;
+    padding-left: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: #f9ffff;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    border-right: 2px solid var(--borde);
+}
+
+.celda-falta {
+    cursor: pointer;
+    width: 35px;
+    transition: all 0.2s;
+    user-select: none;
+    font-weight: bold;
+}
+
+/* Colores personalizados suaves para cada nombre */
+.col-selena { background-color: rgba(251, 4, 247, 0.295) !important; }
+.col-vanesa { background-color: rgba(5, 140, 251, 0.364) !important; }
+.col-alejandra { background-color: rgba(252, 5, 50, 0.33) !important; }
+.col-gustavo { background-color: rgba(6, 246, 254, 0.214) !important; }
+.col-ruth { background-color: rgba(244, 16, 179, 0.234) !important; }
+.col-fidel { background-color: rgba(254, 229, 3, 0.299) !important; }
+
+.con-falta {
+    color: var(--acento);
+    font-size: 1.1rem;
+    animation: bounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounce {
+    0% { transform: scale(0.5); }
+    100% { transform: scale(1); }
+}
+
+.fila-total {
+    background: var(--oro);
+    color: white;
+    font-weight: 900;
+}
+
+#total-dinero { font-size: 1.3rem; }

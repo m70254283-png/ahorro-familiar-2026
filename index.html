@@ -1,0 +1,52 @@
+¿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahorro Familiar 2026</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>AHORRO FAMILIAR 2026</h1>
+        <p class="instrucciones">PC: Clic (+) / Clic Derecho (-) | Móvil: Tocar (+) / Mantener (-)</p>
+    </header>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr class="header-nombres">
+                    <th rowspan="2">REGLAS DE CONVIVENCIA</th>
+                    <th colspan="6">SELENA</th>
+                    <th colspan="6">VANESA</th>
+                    <th colspan="6">ALEJANDRA</th>
+                    <th colspan="6">GUSTAVO</th>
+                    <th colspan="6">RUTH</th>
+                    <th colspan="6">FIDEL</th>
+                </tr>
+                <tr class="header-dias">
+                    <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
+                    <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
+                    <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
+                    <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
+                    <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
+                    <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-cuerpo"></tbody>
+            <tfoot>
+                <tr class="fila-total">
+                    <td class="regla-nombre">TOTAL RECAUDADO (Bs):</td>
+                    <td colspan="36" id="total-dinero">0.00</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- SCRIPTS DE FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+    <!-- TU CODIGO -->
+    <script src="script.js"></script>
+</body>
+</html>
