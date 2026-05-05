@@ -1,4 +1,4 @@
-¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,25 @@
         <p class="instrucciones">PC: Clic (+) / Clic Derecho (-) | Móvil: Tocar (+) / Mantener (-)</p>
     </header>
 
+    <div id="admin-section" class="admin-panel">
+        <div id="login-form">
+            <input type="email" id="email" placeholder="Correo del encargado">
+            <input type="password" id="password" placeholder="Contraseña">
+            <button onclick="iniciarSesion()">Entrar como Encargado</button>
+        </div>
+        
+        <div id="admin-info" style="display: none;">
+            <p>🔑 Encargado: <span id="user-email"></span></p>
+            <button onclick="cerrarSesion()">Cerrar Sesión</button>
+            <button id="btn-reinicio" style="display:none; background-color: #c0392b; margin-left: 10px;" onclick="reiniciarCiclo()">😇 Reiniciar Tabla</button>
+        </div>
+    </div>
+
+    <!-- CONTADOR DE DINERO -->
+    <div class="recaudacion-container">
+        <h2 id="recaudacion-texto">💰 TOTAL RECAUDADO: <span id="total-dinero">0</span> Bs.</h2>
+    </div>
+
     <div class="table-container">
         <table>
             <thead>
@@ -21,10 +40,10 @@
                     <th colspan="6">VANESA</th>
                     <th colspan="6">ALEJANDRA</th>
                     <th colspan="6">GUSTAVO</th>
-                    <th colspan="6">RUTH</th>
                     <th colspan="6">FIDEL</th>
+                    <th colspan="6">RUTH</th>
                 </tr>
-                <tr class="header-dias">
+                <tr class="header-iniciales">
                     <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
                     <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
                     <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
@@ -33,20 +52,10 @@
                     <th>F</th><th>R</th><th>V</th><th>S</th><th>G</th><th>A</th>
                 </tr>
             </thead>
-            <tbody id="tabla-cuerpo"></tbody>
-            <tfoot>
-                <tr class="fila-total">
-                    <td class="regla-nombre">TOTAL RECAUDADO (Bs):</td>
-                    <td colspan="36" id="total-dinero">0.00</td>
-                </tr>
-            </tfoot>
+            <tbody id="cuerpo-tabla"></tbody>
         </table>
     </div>
 
-    <!-- SCRIPTS DE FIREBASE -->
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
-    <!-- TU CODIGO -->
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

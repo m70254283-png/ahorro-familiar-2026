@@ -1,110 +1,33 @@
-:root {
-    --fondo: #e0f7fa;        /* Celeste agua claro */
-    --tarjeta: #ffffff;      /* Blanco puro */
-    --texto: #006064;        /* Verde azulado oscuro */
-    --acento: #ff5252;       /* Rojo vibrante para faltas */
-    --borde: #b2ebf2;        /* Celeste suave */
-    --oro: #00acc1;          /* Cian para encabezados */
-}
+body { font-family: 'Segoe UI', sans-serif; background-color: #1a1a1a; color: white; margin: 0; padding: 20px; }
+header { text-align: center; margin-bottom: 10px; }
+h1 { color: #f1c40f; }
 
-body {
-    background-color: var(--fondo);
-    background-image: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
-    color: var(--texto);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+.admin-panel { background: #2c3e50; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #34495e; }
+.admin-panel input { padding: 8px; margin: 5px; border-radius: 4px; border: none; width: 160px; }
+.admin-panel button { padding: 8px 15px; background: #e67e22; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-.instrucciones {
-    color: #00838f;
-    font-size: 0.85rem;
-    margin-bottom: 25px;
-    text-align: center;
-    font-weight: 500;
-}
+.recaudacion-container { text-align: center; background: #27ae60; padding: 10px; border-radius: 8px; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto; }
+#total-dinero { font-size: 1.5em; font-weight: bold; }
 
-.table-container {
-    width: 100%;
-    max-width: 1450px;
-    overflow-x: auto;
-    background: var(--tarjeta);
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 96, 100, 0.15);
-}
+.table-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; background-color: #222; min-width: 1200px; }
+th, td { border: 1px solid #444; padding: 8px; text-align: center; }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-    min-width: 1250px;
-}
+.header-nombres th { background-color: #2980b9; color: white; }
+.header-iniciales th { background-color: #34495e; font-size: 0.75em; color: #ccc; }
 
-th, td {
-    border: 1px solid var(--borde);
-    padding: 12px 8px;
-    text-align: center;
-}
+.regla-texto { text-align: left; background-color: #2c3e50; min-width: 300px; cursor: default; font-size: 0.85em; color: white !important; }
 
-.header-nombres {
-    background: #0097a7;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.header-dias {
-    background: #f0fdfd;
-    font-size: 0.7rem;
-    color: #006064;
-}
-
-.regla-nombre {
-    text-align: left;
-    padding-left: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    background: #f9ffff;
-    position: sticky;
-    left: 0;
-    z-index: 5;
-    border-right: 2px solid var(--borde);
-}
-
-.celda-falta {
-    cursor: pointer;
-    width: 35px;
-    transition: all 0.2s;
-    user-select: none;
-    font-weight: bold;
-}
-
-/* Colores personalizados suaves para cada nombre */
-.col-selena { background-color: rgba(251, 4, 247, 0.295) !important; }
-.col-vanesa { background-color: rgba(5, 140, 251, 0.364) !important; }
-.col-alejandra { background-color: rgba(252, 5, 50, 0.33) !important; }
-.col-gustavo { background-color: rgba(6, 246, 254, 0.214) !important; }
-.col-ruth { background-color: rgba(244, 16, 179, 0.234) !important; }
-.col-fidel { background-color: rgba(254, 229, 3, 0.299) !important; }
-
-.con-falta {
-    color: var(--acento);
-    font-size: 1.1rem;
-    animation: bounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes bounce {
-    0% { transform: scale(0.5); }
-    100% { transform: scale(1); }
-}
-
-.fila-total {
-    background: var(--oro);
-    color: white;
-    font-weight: 900;
-}
-
-#total-dinero { font-size: 1.3rem; }
+/* COLORES POR INTEGRANTE */
+/* Selena (Columnas 2-7) */
+td:nth-child(n+2):nth-child(-n+7) { color: #ff7675; } 
+/* Vanesa (Columnas 8-13) */
+td:nth-child(n+8):nth-child(-n+13) { color: #74b9ff; } 
+/* Alejandra (Columnas 14-19) */
+td:nth-child(n+14):nth-child(-n+19) { color: #55efc4; } 
+/* Gustavo (Columnas 20-25) */
+td:nth-child(n+20):nth-child(-n+25) { color: #ffeaa7; } 
+/* Fidel (Columnas 26-31) */
+td:nth-child(n+26):nth-child(-n+31) { color: #a29bfe; } 
+/* Ruth (Columnas 32-37) */
+td:nth-child(n+32):nth-child(-n+37) { color: #fab1a0; }

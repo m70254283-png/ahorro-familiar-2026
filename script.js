@@ -1,79 +1,115 @@
-// CONFIGURACIÓN DE TU IMAGEN image_3881ef.png
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCrg-aB6l0Y4Ym4mJuQnDsvTFgzQOttc7M",
   authDomain: "ahorro-familiar-f6050.firebaseapp.com",
-  databaseURL: "https://ahorro-familiar-f6050-default-rtdb.firebaseio.com", // URL corregida
+  databaseURL: "https://ahorro-familiar-f6050-default-rtdb.firebaseio.com",
   projectId: "ahorro-familiar-f6050",
   storageBucket: "ahorro-familiar-f6050.firebasestorage.app",
   messagingSenderId: "814092497761",
-  appId: "1:814092497761:web:b3c3847e4b75623ec18b20",
-  measurementId: "G-F7MHCHZTCX"
+  appId: "1:814092497761:web:b3c3847e4b75623ec18b20"
 };
 
-// Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
 
-const listaReglas = [
-    "1. NO JETEAR SIN CONSENTIMIENTO", "2. NO DEJAR LA LUZ, TELEVISOR, CARGADOR ENCENDIDO",
-    "3. MANTENER LOS CUARTOS LIMPIOS", "4. LEVANTARSE TEMPRANO",
-    "5. DESPUES DE LAVAR ROPA LIMPIAR EL PISO", "6. PONER LAS COSAS EN SU LUGAR",
-    "7. LAS COSAS QUE SE UTILIZAN DEJAR LIMPIAS", "8. NO URGAR CELULARES EN LA MESA",
-    "9. LIMPIAR EL BAÑO DESPUES DE BAÑARSE", "10. HIGIENE EN EL BAÑO",
-    "11. ACABAR LAS COMIDAS", "12. NO DEJAR LA ROPA EN EL TENDEDERO",
-    "13. PEDIR LAS COSAS PRESTADAS", "14. NO AGARRARSE CON COSAS AJENAS",
-    "15. NO GRITAR NI AMOTINARSE", "16. HACER LA LIMPIEZA DE CALLADO",
-    "17. NO MENTIR (PRUEBAS)", "18. NO NEGAR LAS SITUACIONES MALAS",
-    "19. NO FALTAR EN RESPETO ENTRE TODOS", "20. LIMPIAR LA MESA ANTES DE ACOMODAR",
-    "21. CUANDO SE SACA VIVERES NO HECHAR AL SUELO", "22. NO ENSUCIAR LA ALFOMBRA/AUTO"
+const reglas = [
+    "NO JETEAR SIN CONSENTIMIENTO", "NO DEJAR LA LUZ, TELEVISOR, CARGADOR ENCENDIDO",
+    "MANTENER LOS CUARTOS LIMPIOS", "LEVANTARSE TEMPRANO", "DESPUES DE LAVAR ROPA LIMPIAR EL PISO",
+    "PONER LAS COSAS EN SU LUGAR", "LAS COSAS QUE SE UTILIZAN DEJAR LIMPIAS",
+    "NO URGAR CELULARES EN LA MESA MIENTRAS SE COME", "LIMPIAR EL BAÑO DESPUES DE BAÑARSE",
+    "HIGIENE EN EL BAÑO", "ACABAR LAS COMIDAS", "NO DEJAR LA ROPA EN EL TENDEDERO POR DIAS",
+    "PEDIR LAS COSAS PRESTADAS", "NO AGARRARSE CON COSAS AJENAS", "NO GRITAR NI AMOTINARSE",
+    "HACER LA LIMPIEZA DE CALLADO", "NO MENTIR (PRUEBAS)", "NO NEGAR LAS SITUACIONES MALAS QUE SE HACE",
+    "NO FALTAR EN RESPETO ENTRE TODOS", "LIMPIAR LA MESA ANTES DE ACOMODAR",
+    "CUANDO SE SACA VIVERES NO ECHAR AL SUELO", "NO ENSUCIAR LA ALFOMBRA/AUTO CUANDO SE COME"
 ];
 
-const nombresColores = ["col-selena", "col-vanesa", "col-alejandra", "col-gustavo", "col-ruth", "col-fidel"];
-const cuerpoTabla = document.getElementById('tabla-cuerpo');
+const familiares = ["SELENA", "VANESA", "ALEJANDRA", "GUSTAVO", "FIDEL", "RUTH"];
+const inicialesFam = ["F", "R", "V", "S", "G", "A"];
+let encargadoSemanal = "";
 
-// Crear la tabla con IDs para la sincronización
-listaReglas.forEach((texto, fIdx) => {
-    const fila = document.createElement('tr');
-    let contenido = `<td class="regla-nombre">${texto}</td>`;
-    
-    for (let p = 0; p < 6; p++) {
-        for (let d = 0; d < 6; d++) {
-            const idCelda = `f${fIdx}_p${p}_d${d}`;
-            contenido += `<td id="${idCelda}" class="celda-falta ${nombresColores[p]}" 
-                              onclick="enviarAFirebase('${idCelda}', 1)" 
-                              oncontextmenu="enviarAFirebase('${idCelda}', -1); return false;">
-                          </td>`;
-        }
+// 1. Obtener encargado actual
+onValue(ref(db, 'configuracion/encargado_actual'), (snapshot) => {
+    encargadoSemanal = snapshot.val();
+});
+
+// 2. Dibujar Tabla
+const cuerpo = document.getElementById('cuerpo-tabla');
+reglas.forEach((regla, rIndex) => {
+    let fila = `<tr><td class="regla-texto">${rIndex + 1}. ${regla}</td>`;
+    familiares.forEach((_, fIndex) => {
+        inicialesFam.forEach((letra) => {
+            const id = `r${rIndex}_f${fIndex}_${letra}`;
+            fila += `<td id="${id}" onclick="manejarClick('${id}', 1)" oncontextmenu="manejarClick('${id}', -1); return false;">0</td>`;
+        });
+    });
+    fila += `</tr>`;
+    cuerpo.innerHTML += fila;
+});
+
+// 3. Modificar datos y CALCULAR DINERO
+window.manejarClick = (id, cambio) => {
+    const user = auth.currentUser;
+    if (!user || user.email !== encargadoSemanal) {
+        alert(`❌ ACCESO DENEGADO. Solo el encargado (${encargadoSemanal}) puede anotar.`);
+        return;
     }
-    fila.innerHTML = contenido;
-    cuerpoTabla.appendChild(fila);
+    const celda = document.getElementById(id);
+    const nuevoValor = Math.max(0, parseInt(celda.innerText) + cambio);
+    set(ref(db, 'faltas/' + id), nuevoValor);
+};
+
+// Sincronización y Suma Total
+onValue(ref(db, 'faltas'), (snapshot) => {
+    const datos = snapshot.val() || {};
+    let sumaFaltas = 0;
+    
+    // Resetear celdas visualmente antes de cargar (por si se borró algo)
+    document.querySelectorAll('td:not(.regla-texto)').forEach(td => td.innerText = "0");
+
+    Object.keys(datos).forEach(id => {
+        const celda = document.getElementById(id);
+        if(celda) {
+            celda.innerText = datos[id];
+            sumaFaltas += parseInt(datos[id]);
+        }
+    });
+
+    // CÁLCULO DE DINERO: Aquí cambias el 1 por el valor de la multa
+    const valorMulta = 1; 
+    document.getElementById('total-dinero').innerText = sumaFaltas * valorMulta;
 });
 
-// Enviar a la nube
-function enviarAFirebase(id, cambio) {
-    const ref = database.ref('faltas/' + id);
-    ref.once('value').then((snap) => {
-        let valor = (snap.val() || 0) + cambio;
-        if (valor < 0) valor = 0;
-        ref.set(valor);
-    });
-}
+// 4. Autenticación
+window.iniciarSesion = () => {
+    const email = document.getElementById('email').value;
+    const pass = document.getElementById('password').value;
+    signInWithEmailAndPassword(auth, email, pass).catch(err => alert("Error: " + err.message));
+};
 
-// Sincronizar en tiempo real
-database.ref('faltas/').on('value', (snap) => {
-    const datos = snap.val() || {};
-    document.querySelectorAll('.celda-falta').forEach(celda => {
-        const valor = datos[celda.id] || 0;
-        celda.innerText = valor === 0 ? "" : valor;
-        valor > 0 ? celda.classList.add('con-falta') : celda.classList.remove('con-falta');
-    });
-    calcularAhorroTotal();
+window.cerrarSesion = () => signOut(auth);
+
+onAuthStateChanged(auth, (user) => {
+    const loginForm = document.getElementById('login-form');
+    const adminInfo = document.getElementById('admin-info');
+    if (user) {
+        loginForm.style.display = 'none';
+        adminInfo.style.display = 'block';
+        document.getElementById('user-email').innerText = user.email;
+        if(user.email === "jesus@familia.com") document.getElementById('btn-reinicio').style.display = 'inline-block';
+    } else {
+        loginForm.style.display = 'block';
+        adminInfo.style.display = 'none';
+    }
 });
 
-function calcularAhorroTotal() {
-    let total = 0;
-    document.querySelectorAll('.celda-falta').forEach(c => {
-        if (c.innerText !== "") total += parseInt(c.innerText);
-    });
-    document.getElementById('total-dinero').innerText = total.toFixed(2) + " Bs.";
-}
+window.reiniciarCiclo = () => {
+    if(confirm("¿Seguro que quieres perdonar las faltas? 😇")) {
+        set(ref(db, 'faltas'), null);
+        location.reload();
+    }
+};
