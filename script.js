@@ -3,7 +3,7 @@ import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebase
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCrg-aB6l0Y4m4mJuQnDsvTFgzQOttc7MA",
+    apiKey: "AIzaSyCrg-aB6l0Y4m4mJuQnDsvTFgzQOttc7M", // <-- Quítale la 'A' del final, debe terminar en 'M'
     authDomain: "ahorro-familiar-f6050.firebaseapp.com",
     databaseURL: "https://ahorro-familiar-f6050-default-rtdb.firebaseio.com",
     projectId: "ahorro-familiar-f6050",
