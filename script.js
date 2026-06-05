@@ -3,13 +3,14 @@ import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebase
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCrg-aB6l0Y4m4mJuQnDsvTFgzQOttc7M", // <-- Quítale la 'A' del final, debe terminar en 'M'
-    authDomain: "ahorro-familiar-f6050.firebaseapp.com",
-    databaseURL: "https://ahorro-familiar-f6050-default-rtdb.firebaseio.com",
-    projectId: "ahorro-familiar-f6050",
-    storageBucket: "ahorro-familiar-f6050.firebasestorage.app",
-    messagingSenderId: "814092497761",
-    appId: "1:814092497761:web:b3c3847e4b75623ec18b20"
+     apiKey: "AIzaSyCrg-aB6l0Y4Ym4mJuQnDsvTFgzQOttc7M",
+  authDomain: "ahorro-familiar-f6050.firebaseapp.com",
+  databaseURL: "https://ahorro-familiar-f6050-default-rtdb.firebaseio.com",
+  projectId: "ahorro-familiar-f6050",
+  storageBucket: "ahorro-familiar-f6050.firebasestorage.app",
+  messagingSenderId: "814092497761",
+  appId: "1:814092497761:web:b3c3847e4b75623ec18b20",
+  measurementId: "G-F7MHCHZTCX"
 };
 
 const app = initializeApp(firebaseConfig);
